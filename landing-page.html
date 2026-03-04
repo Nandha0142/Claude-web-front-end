@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NovaBrand — We Build Bold</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --lime: #CAFF00;
+      --orange: #FF5C00;
+      --electric: #00CFFF;
+      --pink: #FF2D78;
+      --dark: #0A0A0A;
+      --off-white: #F5F3EE;
+      --mid: #1A1A1A;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--dark);
+      color: var(--off-white);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* CUSTOM CURSOR */
+    .cursor {
+      width: 14px; height: 14px;
+      background: var(--lime);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s, background 0.2s;
+      mix-blend-mode: difference;
+    }
+    .cursor-ring {
+      width: 40px; height: 40px;
+      border: 1.5px solid var(--lime);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.15s ease, width 0.2s, height 0.2s;
+      mix-blend-mode: difference;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.4rem 3rem;
+      backdrop-filter: blur(20px);
+      background: rgba(10,10,10,0.7);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 3px;
+      color: var(--lime);
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--off-white);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      opacity: 0.7;
+      transition: opacity 0.2s, color 0.2s;
+    }
+    .nav-links a:hover { opacity: 1; color: var(--lime); }
+    .nav-cta {
+      background: var(--lime);
+      color: var(--dark);
+      padding: 0.6rem 1.4rem;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border: none;
+      cursor: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nav-cta:hover { background: var(--orange); transform: scale(1.04); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 8rem 3rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: radial-gradient(ellipse 80% 60% at 70% 40%, rgba(202,255,0,0.08) 0%, transparent 70%),
+                  radial-gradient(ellipse 50% 50% at 20% 80%, rgba(255,92,0,0.1) 0%, transparent 60%),
+                  radial-gradient(ellipse 40% 40% at 85% 85%, rgba(0,207,255,0.07) 0%, transparent 60%);
+    }
+    .hero-noise {
+      position: absolute; inset: 0; z-index: 1;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.4;
+      pointer-events: none;
+    }
+    .hero-grid-lines {
+      position: absolute; inset: 0; z-index: 1;
+      background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 1100px;
+      width: 100%;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(202,255,0,0.1);
+      border: 1px solid rgba(202,255,0,0.3);
+      padding: 0.35rem 1rem;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--lime);
+      margin-bottom: 2rem;
+      animation: fadeUp 0.7s ease both;
+    }
+    .badge-dot { width: 6px; height: 6px; background: var(--lime); border-radius: 50%; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 12vw, 11rem);
+      line-height: 0.92;
+      letter-spacing: -1px;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+    .hero-title .accent { color: var(--lime); }
+    .hero-title .stroke {
+      -webkit-text-stroke: 2px var(--off-white);
+      color: transparent;
+    }
+    .hero-title .orange { color: var(--orange); }
+
+    .hero-sub-row {
+      display: flex; align-items: flex-end; gap: 3rem;
+      margin-top: 2.5rem;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+    .hero-desc {
+      max-width: 380px;
+      font-size: 1rem;
+      line-height: 1.65;
+      opacity: 0.65;
+      font-style: italic;
+    }
+    .hero-cta-group { display: flex; gap: 1rem; align-items: center; flex-shrink: 0; }
+    .btn-primary {
+      background: var(--orange);
+      color: white;
+      padding: 1rem 2.5rem;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      border: none; cursor: none;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--pink); transform: translateY(-2px); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--off-white);
+      padding: 1rem 2rem;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,0.2);
+      cursor: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--lime); color: var(--lime); }
+
+    .hero-marquee-wrap {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: var(--lime); padding: 0.5rem 0; overflow: hidden;
+    }
+    .hero-marquee {
+      display: flex; gap: 3rem; width: max-content;
+      animation: marquee 20s linear infinite;
+    }
+    .hero-marquee span {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 3px;
+      color: var(--dark);
+      white-space: nowrap;
+    }
+    @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* STATS */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.06);
+      margin: 0;
+    }
+    .stat-item {
+      background: var(--dark);
+      padding: 3rem 2.5rem;
+      border-top: 2px solid transparent;
+      transition: border-color 0.3s;
+    }
+    .stat-item:hover { border-color: var(--lime); }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4.5rem;
+      line-height: 1;
+      color: var(--lime);
+    }
+    .stat-label { font-size: 0.85rem; opacity: 0.5; letter-spacing: 1.5px; text-transform: uppercase; margin-top: 0.5rem; }
+
+    /* SERVICES */
+    .services {
+      padding: 8rem 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-tag {
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .section-tag::before { content:''; display:inline-block; width:2rem; height:2px; background:var(--orange); }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.05;
+      margin-bottom: 1rem;
+    }
+    .section-title em { font-style: normal; color: var(--electric); }
+    .services-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 4rem;
+      flex-wrap: wrap; gap: 2rem;
+    }
+    .services-desc { max-width: 320px; opacity: 0.55; line-height: 1.7; font-size: 0.95rem; }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .service-card {
+      background: var(--mid);
+      padding: 2.5rem 2rem;
+      border: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s;
+      group: true;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--card-color, var(--lime));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.35s ease;
+    }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.12); }
+    .service-card:nth-child(1) { --card-color: var(--lime); }
+    .service-card:nth-child(2) { --card-color: var(--orange); }
+    .service-card:nth-child(3) { --card-color: var(--electric); }
+    .service-card:nth-child(4) { --card-color: var(--pink); }
+    .service-card:nth-child(5) { --card-color: var(--lime); }
+    .service-card:nth-child(6) { --card-color: var(--orange); }
+
+    .service-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.5rem;
+      color: rgba(255,255,255,0.06);
+      line-height: 1;
+      margin-bottom: 1.5rem;
+      transition: color 0.3s;
+    }
+    .service-card:hover .service-num { color: rgba(255,255,255,0.1); }
+
+    .service-icon {
+      width: 44px; height: 44px;
+      background: var(--card-color, var(--lime));
+      display: grid; place-items: center;
+      margin-bottom: 1.5rem;
+      clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+    }
+    .service-icon svg { width: 20px; height: 20px; }
+
+    .service-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 0.75rem;
+    }
+    .service-text { font-size: 0.88rem; line-height: 1.65; opacity: 0.55; }
+    .service-link {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--card-color, var(--lime));
+      text-decoration: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .service-card:hover .service-link { opacity: 1; }
+
+    /* FEATURED SERVICE (wide card) */
+    .service-card.featured {
+      grid-column: span 2;
+      display: flex; gap: 3rem;
+      background: linear-gradient(135deg, #0F1A00 0%, #0A1200 100%);
+      border-color: rgba(202,255,0,0.15);
+      align-items: center;
+    }
+    .featured-text { flex: 1; }
+    .featured-visual {
+      flex-shrink: 0; width: 180px; height: 180px;
+      display: grid; place-items: center;
+      position: relative;
+    }
+    .featured-ring {
+      width: 120px; height: 120px;
+      border: 2px solid var(--lime);
+      border-radius: 50%;
+      animation: spin 10s linear infinite;
+      position: absolute;
+    }
+    .featured-ring::before {
+      content: '';
+      position: absolute; top: -5px; left: 50%; transform: translateX(-50%);
+      width: 8px; height: 8px;
+      background: var(--lime); border-radius: 50%;
+    }
+    .featured-ring-2 {
+      width: 80px; height: 80px;
+      border: 1.5px dashed rgba(202,255,0,0.4);
+      border-radius: 50%;
+      animation: spin 6s linear infinite reverse;
+      position: absolute;
+    }
+    .featured-center {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      color: var(--lime);
+      letter-spacing: 2px;
+      text-align: center;
+      line-height: 1.2;
+      position: relative; z-index: 1;
+    }
+    @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+
+    /* PROCESS */
+    .process {
+      padding: 6rem 3rem;
+      background: var(--mid);
+      position: relative;
+      overflow: hidden;
+    }
+    .process::before {
+      content: 'HOW';
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20vw;
+      color: rgba(255,255,255,0.02);
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      letter-spacing: 10px;
+    }
+    .process-inner { max-width: 1200px; margin: 0 auto; }
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      margin-top: 4rem;
+      position: relative; z-index: 1;
+    }
+    .process-step { text-align: center; padding: 1.5rem; }
+    .step-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 5rem;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--lime), var(--electric));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .step-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin: 0.75rem 0 0.5rem;
+    }
+    .step-desc { font-size: 0.85rem; opacity: 0.5; line-height: 1.6; }
+
+    /* FOOTER CTA */
+    .footer-cta {
+      padding: 8rem 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .footer-cta-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 100%, rgba(255,92,0,0.15) 0%, transparent 70%);
+    }
+    .footer-cta-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      line-height: 0.95;
+      position: relative; z-index: 1;
+    }
+    .footer-cta-title .highlight { color: var(--orange); }
+    .footer-cta p {
+      font-size: 1rem; opacity: 0.55;
+      margin: 1.5rem auto 2.5rem;
+      max-width: 400px;
+      line-height: 1.7;
+      position: relative; z-index: 1;
+    }
+    .footer-cta-btns { display: flex; gap: 1rem; justify-content: center; position: relative; z-index: 1; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 2rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem; letter-spacing: 3px; color: var(--lime);
+    }
+    .footer-text { font-size: 0.78rem; opacity: 0.35; letter-spacing: 1px; }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { padding: 7rem 1.5rem 5rem; }
+      .stats { grid-template-columns: 1fr; }
+      .services { padding: 5rem 1.5rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .service-card.featured { flex-direction: column; grid-column: span 1; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+      .footer-cta { padding: 5rem 1.5rem; }
+      .footer-cta-btns { flex-direction: column; align-items: center; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">NOVA<span style="color:var(--off-white)">BRAND</span></div>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="nav-cta">Get Started</button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-noise"></div>
+    <div class="hero-grid-lines"></div>
+    <div class="hero-content">
+      <div class="hero-badge"><span class="badge-dot"></span> Available for New Projects</div>
+      <h1 class="hero-title">
+        WE<br>
+        <span class="stroke">BUILD</span><br>
+        <span class="accent">BOLD</span>
+      </h1>
+      <div class="hero-sub-row">
+        <p class="hero-desc">A full-service creative agency that turns ambitious ideas into unforgettable digital experiences — no compromises.</p>
+        <div class="hero-cta-group">
+          <button class="btn-primary">Start a Project</button>
+          <button class="btn-secondary">View Work</button>
+        </div>
+      </div>
+    </div>
+    <div class="hero-marquee-wrap">
+      <div class="hero-marquee">
+        <span>BRANDING</span><span>✦</span><span>WEB DESIGN</span><span>✦</span><span>STRATEGY</span><span>✦</span>
+        <span>IDENTITY</span><span>✦</span><span>MOTION</span><span>✦</span><span>CAMPAIGNS</span><span>✦</span>
+        <span>BRANDING</span><span>✦</span><span>WEB DESIGN</span><span>✦</span><span>STRATEGY</span><span>✦</span>
+        <span>IDENTITY</span><span>✦</span><span>MOTION</span><span>✦</span><span>CAMPAIGNS</span><span>✦</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats reveal">
+    <div class="stat-item">
+      <div class="stat-num">200+</div>
+      <div class="stat-label">Projects Delivered</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">98%</div>
+      <div class="stat-label">Client Satisfaction</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">12x</div>
+      <div class="stat-label">Average ROI</div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="services-header reveal">
+      <div>
+        <div class="section-tag">What We Do</div>
+        <h2 class="section-title">Services Built to<br><em>Dominate</em></h2>
+      </div>
+      <p class="services-desc">Every service is engineered to cut through noise and deliver measurable results for your business.</p>
+    </div>
+
+    <div class="services-grid reveal">
+
+      <div class="service-card featured">
+        <div class="featured-text">
+          <div class="section-tag">Signature Service</div>
+          <div class="service-name" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.6rem;margin-bottom:1rem;">Brand Identity<br>& Strategy</div>
+          <p class="service-text">We craft full brand systems — from visual identity and tone of voice to go-to-market positioning — that make your business impossible to ignore.</p>
+          <a href="#" class="service-link" style="opacity:1;margin-top:1.5rem;">Explore → </a>
+        </div>
+        <div class="featured-visual">
+          <div class="featured-ring"></div>
+          <div class="featured-ring-2"></div>
+          <div class="featured-center">BRAND<br>FIRST</div>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <div class="service-icon">
+          <svg fill="none" stroke="#000" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="service-name">Web Design & Dev</div>
+        <p class="service-text">Blazing-fast, beautifully crafted websites that convert visitors into loyal customers. Built for performance, designed for impact.</p>
+        <a href="#" class="service-link">Learn more →</a>
+      </div>
+
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <div class="service-icon">
+          <svg fill="none" stroke="#000" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <div class="service-name">Motion & Animation</div>
+        <p class="service-text">Dynamic motion graphics and video content that bring your brand to life — from social reels to full explainer campaigns.</p>
+        <a href="#" class="service-link">Learn more →</a>
+      </div>
+
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <div class="service-icon">
+          <svg fill="none" stroke="#000" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <div class="service-name">Growth Marketing</div>
+        <p class="service-text">Data-driven campaigns across paid, organic, and social that scale revenue. We turn ad spend into compounding returns.</p>
+        <a href="#" class="service-link">Learn more →</a>
+      </div>
+
+      <div class="service-card">
+        <div class="service-num">04</div>
+        <div class="service-icon">
+          <svg fill="none" stroke="#000" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <div class="service-name">UI/UX Product Design</div>
+        <p class="service-text">User-centered interfaces for SaaS, apps, and digital products. We design experiences that feel inevitable and delight at every click.</p>
+        <a href="#" class="service-link">Learn more →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process" id="process">
+    <div class="process-inner">
+      <div class="reveal" style="text-align:center">
+        <div class="section-tag" style="justify-content:center">How We Work</div>
+        <h2 class="section-title" style="text-align:center">Our <em>Proven</em> Process</h2>
+      </div>
+      <div class="process-steps reveal">
+        <div class="process-step">
+          <div class="step-num">01</div>
+          <div class="step-title">Discover</div>
+          <p class="step-desc">Deep dive into your goals, audience, and competitive landscape to form a bulletproof strategy.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">02</div>
+          <div class="step-title">Define</div>
+          <p class="step-desc">We shape a creative direction and roadmap, aligning every stakeholder before a pixel is touched.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">03</div>
+          <div class="step-title">Design</div>
+          <p class="step-desc">Rapid prototyping and iteration to find the most powerful visual and functional expression of your brand.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">04</div>
+          <div class="step-title">Deliver</div>
+          <p class="step-desc">Pixel-perfect execution, rigorous QA, and seamless handoff — on time, every time, ready to launch.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER CTA -->
+  <section class="footer-cta" id="contact">
+    <div class="footer-cta-bg"></div>
+    <h2 class="footer-cta-title reveal">READY TO<br><span class="highlight">STAND OUT?</span></h2>
+    <p class="reveal">Let's build something remarkable together. We're selective about who we work with — and we'd love to talk.</p>
+    <div class="footer-cta-btns reveal">
+      <button class="btn-primary">Book a Free Call</button>
+      <button class="btn-secondary">hello@novabrand.co</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">NOVA<span style="color:var(--off-white)">BRAND</span></div>
+    <p class="footer-text">© 2026 NovaBrand. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    function animCursor() {
+      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animCursor);
+    }
+    animCursor();
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => { ring.style.width = '60px'; ring.style.height = '60px'; });
+      el.addEventListener('mouseleave', () => { ring.style.width = '40px'; ring.style.height = '40px'; });
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
